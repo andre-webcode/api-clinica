@@ -11,3 +11,38 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Patient {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  phone        String
+  appointments Appointment[]
+}
+
+model Doctor {
+  id                     Int           @id @default(autoincrement())
+  name                   String
+  specialty              String
+  defaultDurationMinutes Int
+  appointments           Appointment[]
+}
+
+model Appointment {
+  id      Int               @id @default(autoincrement())
+  startAt DateTime
+  endAt   DateTime
+  status  AppointmentStatus @default(SCHEDULED)
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  doctorId Int
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
