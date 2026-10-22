@@ -12,6 +12,8 @@ datasource db {
   provider = "postgresql"
 }
 
+
+
 model Patient {
   id           Int           @id @default(autoincrement())
   name         String
