@@ -12,8 +12,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
-
 model Patient {
   id           Int           @id @default(autoincrement())
   name         String
@@ -23,11 +21,12 @@ model Patient {
 }
 
 model Doctor {
-  id                     Int           @id @default(autoincrement())
+  id                     Int                  @id @default(autoincrement())
   name                   String
   specialty              String
   defaultDurationMinutes Int
   appointments           Appointment[]
+  doctorAvailabilities   DoctorAvailability[]
 }
 
 model Appointment {
@@ -43,8 +42,27 @@ model Appointment {
   doctor   Doctor @relation(fields: [doctorId], references: [id])
 }
 
+model DoctorAvailability {
+  id        Int       @id @default(autoincrement())
+  doctorId  Int
+  dayOfWeek DayOfWeek
+  startTime DateTime  @db.Time
+  endTime   DateTime  @db.Time
+  doctor    Doctor    @relation(fields: [doctorId], references: [id])
+}
+
 enum AppointmentStatus {
   SCHEDULED
   CANCELLED
   COMPLETED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
 }
