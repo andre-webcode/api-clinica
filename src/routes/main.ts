@@ -10,4 +10,6 @@ mainRouter.get("/ping", pingController.ping);
 
 mainRouter.get("/patients", patientController.getPatients)
 mainRouter.post("/patients", patientController.postPatient)
+
 mainRouter.post("/doctors", doctorController.postDoctor)
+mainRouter.get("/doctors",doctorController.getDoctors)

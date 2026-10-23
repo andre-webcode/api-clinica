@@ -9,3 +9,9 @@ export const createDoctor = async (data: CreateDoctorInput) => {
 
     return doctor;
 }
+
+export const getAllDoctors = async () => {
+    const doctors = await prisma.doctor.findMany({});
+
+    return doctors;
+}
