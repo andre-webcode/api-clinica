@@ -11,4 +11,5 @@
 export type * from './models/Patient.js'
 export type * from './models/Doctor.js'
 export type * from './models/Appointment.js'
+export type * from './models/DoctorAvailability.js'
 export type * from './commonInputTypes.js'
