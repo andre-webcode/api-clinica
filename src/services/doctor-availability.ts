@@ -8,7 +8,8 @@ export const createDoctorAvailability = async (data: CreateDoctorAvailabilityInp
         where: {
             id: data.doctorId
         },
-        select: {
+        select:
+         {
             id: true,
             doctorAvailabilities: {
                 where: {
@@ -59,4 +60,13 @@ export const createDoctorAvailability = async (data: CreateDoctorAvailabilityInp
     });
 
     return { availability } as const;
+    
 }
+
+export const getDoctorAvailabilities = async (doctorId: number) => {
+    return prisma.doctorAvailability.findMany({
+        where: {
+            doctorId,
+        },
+    });
+};
