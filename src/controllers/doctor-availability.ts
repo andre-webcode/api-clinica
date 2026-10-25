@@ -15,13 +15,20 @@ export const postDoctorAvailability = async (req: Request, res: Response) => {
         });
     }
 
-    const availability = await createDoctorAvailability(result.data);
+    const availabilityResult = await createDoctorAvailability(result.data);
 
-    if (!availability) {
+    if ("error" in availabilityResult && availabilityResult.error === "DOCTOR_NOT_FOUND") {
         return res.status(404).json({
             message: "Médico não encontrado",
-        })
+        });
     }
 
-    return res.status(201).json(availability)
-}
+    if ("error" in availabilityResult && availabilityResult.error === "AVAILABILITY_OVERLAP") {
+        return res.status(409).json({
+            message: "Já existe disponibilidade nesse intervalo",
+        });
+    }
+
+
+    return res.status(201).json(availabilityResult.availability);
+};
