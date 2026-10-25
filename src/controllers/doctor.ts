@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { doctorSchema } from "../schemas/doctor-schema.js";
-import { createDoctor, getAllDoctors } from "../services/doctorService.js";
+import { createDoctor, getAllDoctors } from "../services/doctor.js";
 
 
 export const postDoctor = async (req: Request, res: Response) => {

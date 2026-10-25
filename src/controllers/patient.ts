@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createPatient, getAllPatients } from "../services/patientService.js";
+import { createPatient, getAllPatients } from "../services/patient.js";
 import { patientSchema } from "../schemas/patient-schema.js";
 import z from "zod";
 
