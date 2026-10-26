@@ -9,7 +9,7 @@ export const createDoctorAvailability = async (data: CreateDoctorAvailabilityInp
             id: data.doctorId
         },
         select:
-         {
+        {
             id: true,
             doctorAvailabilities: {
                 where: {
@@ -60,13 +60,23 @@ export const createDoctorAvailability = async (data: CreateDoctorAvailabilityInp
     });
 
     return { availability } as const;
-    
+
 }
 
 export const getDoctorAvailabilities = async (doctorId: number) => {
-    return prisma.doctorAvailability.findMany({
+    const doctor = await prisma.doctor.findUnique({
         where: {
-            doctorId,
+            id: doctorId,
+        },
+        include: {
+            doctorAvailabilities: true,
         },
     });
+
+    if (!doctor) {
+        return null;
+    }
+
+    return doctor.doctorAvailabilities;
 };
+

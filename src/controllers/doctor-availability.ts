@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { doctorAvailabilitySchema } from "../schemas/doctor-availability-schema.js";
 import { getDoctorAvailabilities, createDoctorAvailability, } from "../services/doctor-availability.js";
+import { formatTime } from "../utils/format-time.js";
 
 
 export const postDoctorAvailability = async (req: Request, res: Response) => {
@@ -44,5 +45,17 @@ export const listDoctorAvailabilities = async (req: Request, res: Response) => {
 
     const availabilities = await getDoctorAvailabilities(doctorId);
 
-    return res.status(200).json(availabilities);
+    if (availabilities === null) {
+        return res.status(404).json({
+            message: "Médico não encontrado",
+        });
+    }
+
+    const formattedAvailabilities = availabilities.map((availability) => ({
+        ...availability,
+        startTime: formatTime(availability.startTime),
+        endTime: formatTime(availability.endTime),
+    }))
+
+    return res.status(200).json(formattedAvailabilities);
 };
