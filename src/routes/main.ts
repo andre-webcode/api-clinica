@@ -3,6 +3,7 @@ import * as pingController from "../controllers/ping.js"
 import * as patientController from "../controllers/patient.js"
 import * as doctorController from "../controllers/doctor.js"
 import * as doctorAvailabilityController from "../controllers/doctor-availability.js";
+import * as appointmentController from "../controllers/appointment.js";
 
 
 export const mainRouter = Router();
@@ -17,3 +18,5 @@ mainRouter.get("/doctors", doctorController.getDoctors)
 
 mainRouter.post("/doctors/:doctorId/availabilities", doctorAvailabilityController.postDoctorAvailability)
 mainRouter.get("/doctors/:doctorId/availabilities", doctorAvailabilityController.listDoctorAvailabilities)
+
+mainRouter.post("/appointments",appointmentController.appointmentPost)
