@@ -1,3 +1,4 @@
+import { Prisma } from "../generated/prisma/client.js";
 import { calculateAppointmentEnd } from "../utils/calculate-appointment.js";
 import { getAppointmentLocalTime } from "../utils/get-appointment.js";
 import { getAvailabilityMinutes } from "../utils/get-availability-minutes.js";
@@ -93,4 +94,27 @@ export const getListAppointment = async () => {
     });
 
     return appointments;
+}
+
+export const cancelAppointment = async (appointmentId: number) => {
+    try {
+        const updated = await prisma.appointment.update({
+            where: { id: appointmentId },
+            data: {
+                status: "CANCELLED"
+            }
+        });
+
+        return updated;
+
+    } catch (error) {
+        if (
+            error instanceof Prisma.PrismaClientKnownRequestError &&
+            error.code === "P2025"
+        ) {
+            return { error: "APPOINTMENT_NOT_FOUND" };
+        }
+
+        throw error;
+    }
 }

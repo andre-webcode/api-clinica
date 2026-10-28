@@ -21,3 +21,5 @@ mainRouter.get("/doctors/:doctorId/availabilities", doctorAvailabilityController
 
 mainRouter.post("/appointments",appointmentController.appointmentPost)
 mainRouter.get("/appointments",appointmentController.appointmentGet)
+
+mainRouter.patch("/appointments/:id/cancel", appointmentController.appointmentCancel)
