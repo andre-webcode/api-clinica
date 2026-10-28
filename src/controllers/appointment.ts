@@ -1,7 +1,7 @@
 
 import type { Request, Response } from "express";
 import { appointmentSchema } from "../schemas/appointment-schema.js";
-import { createAppointment } from "../services/appointment.js";
+import { createAppointment, getListAppointment } from "../services/appointment.js";
 
 export const appointmentPost = async (req: Request, res: Response) => {
     const validation = appointmentSchema.safeParse(req.body);
@@ -32,7 +32,7 @@ export const appointmentPost = async (req: Request, res: Response) => {
         }
 
         return res.status(201).json(result.appointment);
-        
+
     } catch {
         return res.status(500).json({
             error: "INTERNAL_SERVER_ERROR",
@@ -40,3 +40,17 @@ export const appointmentPost = async (req: Request, res: Response) => {
     }
 
 };
+
+export const appointmentGet = async (req: Request, res: Response) => {
+    try {
+        const appointments = await getListAppointment();
+
+        return res.status(200).json(appointments);
+
+    } catch {
+        return res.status(500).json({
+            error: "INTERNAL_SERVER_ERROR",
+        })
+    }
+
+}

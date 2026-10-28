@@ -83,3 +83,14 @@ export const createAppointment = async (data: CreateAppointmentInput) => {
 
     return { appointment };
 };
+
+export const getListAppointment = async () => {
+    const appointments = await prisma.appointment.findMany({
+        include: {
+            patient: true,
+            doctor: true,
+        }
+    });
+
+    return appointments;
+}

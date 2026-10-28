@@ -20,3 +20,4 @@ mainRouter.post("/doctors/:doctorId/availabilities", doctorAvailabilityControlle
 mainRouter.get("/doctors/:doctorId/availabilities", doctorAvailabilityController.listDoctorAvailabilities)
 
 mainRouter.post("/appointments",appointmentController.appointmentPost)
+mainRouter.get("/appointments",appointmentController.appointmentGet)
