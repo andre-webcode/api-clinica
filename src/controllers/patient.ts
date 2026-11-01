@@ -5,10 +5,19 @@ import z from "zod";
 
 
 export const getPatients = async (req: Request, res: Response) => {
-  
-    const patients = await getAllPatients();
+    try {
 
-    return res.status(200).json(patients);
+        const patients = await getAllPatients();
+
+        return res.status(200).json(patients);
+
+    } catch {
+        
+        return res.status(500).json({
+            error: "INTERNAL_SERVER_ERROR",
+        });
+    }
+
 }
 
 
