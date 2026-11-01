@@ -72,4 +72,21 @@ describe("POST /patients", () => {
         expect(response.status).toBe(201);
         expect(response.body).toEqual(createdPatient);
     });
+
+    it("deve retornar 400 quando os dados forem inválidos", async () => {
+        const invalidPatient = {
+            name: "A",
+            email: "email-invalido",
+            phone: "",
+        };
+
+        const response = await request(app)
+            .post("/patients")
+            .send(invalidPatient);
+
+
+        expect(response.status).toBe(400);
+
+        expect(createPatient).not.toHaveBeenCalled()
+    });
 });
