@@ -184,3 +184,55 @@ describe("GET /appointments", () => {
         });
     });
 });
+
+describe("PATCH /appointments/:id/cancel", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it("deve cancelar um agendamento com sucesso", async () => {
+        const cancelledAppointment = {
+            id: 1,
+            patientId: 1,
+            doctorId: 2,
+            startAt: new Date("2026-10-26T12:00:00.000Z"),
+            endAt: new Date("2026-10-26T12:25:00.000Z"),
+            status: "CANCELLED" as const,
+        };
+
+        vi.mocked(cancelAppointment).mockResolvedValue(cancelledAppointment);
+
+        const response = await request(app)
+            .patch("/appointments/1/cancel");
+
+        expect(response.status).toBe(200);
+        expect(response.body.status).toBe("CANCELLED");
+        expect(cancelAppointment).toHaveBeenCalledWith(1);
+    });
+
+    it("deve retornar 400 quando o ID for inválido", async () => {
+        const response = await request(app)
+            .patch("/appointments/abc/cancel");
+    
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({
+            error: "INVALID_APPOINTMENT_ID",
+        });
+        expect(cancelAppointment).not.toHaveBeenCalled();
+    });
+
+    it("deve retornar 404 quando o agendamento não existir", async () => {
+        vi.mocked(cancelAppointment).mockResolvedValue({
+            error: "APPOINTMENT_NOT_FOUND",
+        });
+    
+        const response = await request(app)
+            .patch("/appointments/999/cancel");
+    
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            error: "Agendamento nao existe",
+        });
+        expect(cancelAppointment).toHaveBeenCalledWith(999);
+    });
+});
