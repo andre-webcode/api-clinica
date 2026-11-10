@@ -7,3 +7,7 @@ export const doctorSchema = z.object({
 })
 
 export type CreateDoctorInput = z.infer<typeof doctorSchema>;
+
+export const updateDoctorSchema = doctorSchema.partial();
+
+export type UpdateDoctorInput = z.infer<typeof updateDoctorSchema>;

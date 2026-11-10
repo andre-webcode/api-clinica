@@ -15,6 +15,7 @@ mainRouter.post("/patients", patientController.postPatient)
 
 mainRouter.post("/doctors", doctorController.postDoctor)
 mainRouter.get("/doctors", doctorController.getDoctors)
+mainRouter.patch("/doctors/:id", doctorController.patchDoctor);
 
 mainRouter.post("/doctors/:doctorId/availabilities", doctorAvailabilityController.postDoctorAvailability)
 mainRouter.get("/doctors/:doctorId/availabilities", doctorAvailabilityController.listDoctorAvailabilities)
